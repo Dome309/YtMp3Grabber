@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "YT MP3 Downloader",
+  "version": "1.0",
+  "description": "Scarica video YouTube come MP3 con un click.",
+
+  "permissions": [
+    "storage",
+    "notifications"
+  ],
+
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://music.youtube.com/*",
+    "http://localhost:5000/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/watch*",
+        "https://music.youtube.com/watch*"
+      ],
+      "js": ["content_script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "action": {
+    "default_title": "YT MP3 Downloader"
+  }
+}
