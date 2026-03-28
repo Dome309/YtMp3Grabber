@@ -1,71 +1,73 @@
 # yt-mp3-grabber
 
-Un semplice backend .NET + estensione browser per scaricare tracce MP3 da YouTube usando `yt-dlp` + `ffmpeg`.
+A simple .NET backend + browser extension to download MP3 audio from YouTube with `yt-dlp` + `ffmpeg`.
 
-## Funzionalità
+## Features
 
-- API REST localmente su `http://localhost:5000`
-- Selezione cartella con finestra GUI
-- Download e conversione audio in MP3 con `yt-dlp`
-- Compatibile con estensione Chrome/Edge tramite CORS limitato a `chrome-extension://`
-- Auto-detect di `yt-dlp` e `ffmpeg` in PATH
-- Logging console dettagliato e gestione errori
+- REST API on `http://localhost:5000`
+- Windows folder picker UI
+- Audio download and MP3 conversion via `yt-dlp`
+- Chrome/Edge extension integration with CORS restricted to `chrome-extension://`
+- Auto-detect `yt-dlp` and `ffmpeg` from PATH
+- Detailed console logging and error handling
 
-## Requisiti
+## Requirements
 
 - Windows 10/11
 - .NET 8 SDK
-- `yt-dlp` (installabile con `winget install yt-dlp.yt-dlp`)
-- `ffmpeg` (installabile con `winget install ffmpeg`)
+- `yt-dlp` (install with `winget install yt-dlp.yt-dlp`)
+- `ffmpeg` (install with `winget install ffmpeg`)
 
-## Installazione
+## Installation
 
-1. Clona il repository
-2. Apri il terminale nella cartella del progetto
+1. Clone the repository
+2. Open a terminal in the project folder
 3. `dotnet restore`
 4. `dotnet build`
 
-## Esecuzione
+## Run
 
-1. Avvia l'app con `dotnet run` o lancia la soluzione da Visual Studio
-2. Assicurati che la finestra rimanga aperta (il servizio API gira finché il processo è attivo)
-3. L'estensione browser comunica a `http://localhost:5000`
+1. Start the app with `dotnet run` or via Visual Studio
+2. Keep the console window open while using the extension (API is active until the process stops)
+3. Extension communicates with `http://localhost:5000`
 
 ## Endpoints
 
-- `GET /select-folder`: mostra il selettore cartelle di Windows
+- `GET /select-folder`: shows the Windows folder picker
 - `POST /download`:
-  - body JSON: `{ "url": "<YouTube URL>", "folder": "C:\\path\\to\\output" }`
-  - restituisce 200 su successo, 400 su validazione URL/cartella, 500 su errore yt-dlp
+  - JSON body: `{ "url": "<YouTube URL>", "folder": "C:\\path\\to\\output" }`
+  - returns 200 on success, 400 for invalid URL/folder, 500 for yt-dlp errors
 
-## Come usare con l'estensione
+## Using with the extension
 
-1. Installa l'estensione dalla cartella (in Developer mode in Chrome/Edge)
-2. Assicurati che l'API sia in ascolto `http://localhost:5000`
-3. Nel popup, inserisci l'URL YouTube e premi `Download`
-4. Seleziona cartella (prima chiamata a `/select-folder`)
+1. Load the extension in Developer mode in Chrome/Edge from the folder
+2. Ensure the API listens on `http://localhost:5000`
+3. Enter a YouTube URL and click `Download`
+4. Select a folder when prompted (`/select-folder` call)
 
 ## Debug
 
-- Messaggi yt-dlp in log: `[yt-dlp] ...`
-- Se c'è errore di `ffmpeg` o `ffprobe`:
+- yt-dlp logs are prefixed with `[yt-dlp] ...`
+- If `ffmpeg`/`ffprobe` is missing:
   - `winget install ffmpeg`
-  - riavvia API
-- Per bypassare l'errore di exit code `yt-dlp`, il comando viene eseguito con `.WithValidation(CommandResultValidation.None)` e i dettagli restano nel log.
+  - restart the API
+- Command exit codes are accepted with `.WithValidation(CommandResultValidation.None)` in yt-dlp invocation; check logs for details.
 
-## File principali
+## Main files
 
-- `Program.cs`: server API e invocazione yt-dlp
-- `background.js`: comunicazione con l'API locale
-- `content_script.js`: integrazione pagina YouTube
-- `manifest.json`: permessi, CORS e URL
+- `Program.cs`: API server, yt-dlp process handling
+- `background.js`: extension <-> local API calls
+- `content_script.js`: YouTube page integration
+- `manifest.json`: extension permissions and settings
 
-## Commit minimali
+## Committed files
 
-Il commit successivo include i file necessari:
+The main files included in the commit:
 - `README.md`
 - `Program.cs`
 - `background.js`
 - `content_script.js`
 - `manifest.json`
+- `YoutubeMp3Extension.sln`
+- `YtMp3Api.csproj`
 

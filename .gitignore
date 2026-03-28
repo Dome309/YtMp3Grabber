@@ -1,0 +1,39 @@
+# Build directories
+bin/
+obj/
+
+# Visual Studio files
+*.user
+*.suo
+*.vcxproj.user
+*.dbmdl
+
+# Rider files
+.idea/
+*.sln.iml
+
+# JetBrains
+*.DotSettings.user
+
+# VS Code
+.vscode/
+
+# NuGet
+*.nupkg
+packages/
+
+# ASP.NET temporary files
+project.lock.json
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# logs
+*.log
+
+# dotnet watch
+**/.vs/**
+
+# static web assets (if any)
+**/staticwebassets.*
