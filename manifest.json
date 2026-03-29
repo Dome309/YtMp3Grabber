@@ -22,13 +22,13 @@
         "https://www.youtube.com/watch*",
         "https://music.youtube.com/watch*"
       ],
-      "js": ["content_script.js"],
+      "js": ["YtMp3Grabber.content_script.js"],
       "run_at": "document_idle"
     }
   ],
 
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "YtMp3Grabber.background.js"
   },
 
   "action": {

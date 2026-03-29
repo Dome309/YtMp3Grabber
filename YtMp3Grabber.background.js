@@ -1,13 +1,13 @@
-// background.js — Service Worker dell'estensione
-// Gestisce tutte le chiamate HTTP alla API locale (.NET).
-// Il content_script non chiama direttamente l'API per evitare
-// qualsiasi conflitto con la CSP di YouTube.
+// YtMp3Grabber.background.js — extension service worker
+// Handles HTTP calls to the local .NET API.
+// The content_script doesn't call the API directly to avoid
+// CSP issues on YouTube pages.
 
 const API_BASE = 'http://localhost:5000';
 
 // ──────────────────────────────────────────────
 //  MESSAGE HANDLER
-//  Riceve messaggi dal content_script.js
+//  Receives messages from content_script.js
 // ──────────────────────────────────────────────
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   switch (message.type) {
@@ -26,7 +26,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 });
 
 // ──────────────────────────────────────────────
-//  Recupera la cartella salvata in precedenza
+//  Retrieve previously saved folder
 // ──────────────────────────────────────────────
 async function getSavedFolder() {
   const data = await chrome.storage.local.get('lastFolder');
@@ -34,8 +34,8 @@ async function getSavedFolder() {
 }
 
 // ──────────────────────────────────────────────
-//  Chiama l'API per aprire il dialogo cartella
-//  e salva il percorso scelto in storage locale
+//  Call API to open folder picker
+//  and save the selected path to local storage
 // ──────────────────────────────────────────────
 async function selectFolder() {
   try {
@@ -50,30 +50,30 @@ async function selectFolder() {
     return { success: true, folder: data.path };
 
   } catch {
-    return { 
-      success: false, 
-      error: chrome.i18n.getMessage('serverUnreachableError') 
+    return {
+      success: false,
+      error: chrome.i18n.getMessage('serverUnreachableError')
     };
   }
 }
 
 // ──────────────────────────────────────────────
-//  Chiama l'API per scaricare e convertire in MP3
+//  Call API to download and convert to MP3
 // ──────────────────────────────────────────────
 async function downloadMp3(url, folder) {
   try {
     const res = await fetch(`${API_BASE}/download`, {
-      method:  'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ url, folder })
+      body: JSON.stringify({ url, folder })
     });
 
     if (res.ok) {
       // Notifica desktop al completamento
       chrome.notifications.create({
-        type:    'basic',
+        type: 'basic',
         iconUrl: 'icon128.png',
-        title:   chrome.i18n.getMessage('downloadWorkerNotificationTitle'),
+        title: chrome.i18n.getMessage('downloadWorkerNotificationTitle'),
         message: chrome.i18n.getMessage('downloadWorkerNotificationMessage', folder)
       });
       return { success: true };
@@ -83,9 +83,9 @@ async function downloadMp3(url, folder) {
     return { success: false, error: err.error || err.detail || chrome.i18n.getMessage('downloadFailedError') };
 
   } catch {
-    return { 
-      success: false, 
-      error: 'Impossibile raggiungere il server locale.\nAssicurati che YtMp3Api.exe sia in esecuzione!' 
-    };
+    return {
+      success: false,
+      error: 'Cannot reach local server. Ensure YtMp3Grabber is running.'
+    }
   }
 }

@@ -119,8 +119,8 @@ Errors from `yt-dlp` are forwarded as-is in the response body to make debugging 
 yt-mp3-grabber/
 ├── Program.cs            # API server, process management, folder picker
 ├── manifest.json         # Extension manifest (Manifest V3)
-├── background.js         # Service worker — bridges extension and local API
-└── content_script.js     # Injected into YouTube pages
+├── YtMp3Grabber.background.js         # Service worker — bridges extension and local API
+└── YtMp3Grabber.content_script.js     # Injected into YouTube pages
 ```
 
 ---

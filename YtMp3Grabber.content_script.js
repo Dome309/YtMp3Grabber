@@ -1,9 +1,9 @@
-// content_script.js
-// Pulsante flottante fisso — non dipende dalla struttura DOM di YouTube.
-// Funziona indipendentemente da qualsiasi aggiornamento della UI di YouTube.
+// YtMp3Grabber.content_script.js
+// Fixed floating button that does not depend on YouTube DOM structure.
+// Works independently from YouTube UI updates.
 
 // ──────────────────────────────────────────────
-//  STATO
+//  STATE
 // ──────────────────────────────────────────────
 const WIDGET_ID = 'yt-mp3-widget';
 let selectedFolder = null;
@@ -16,7 +16,7 @@ function t(key, substitutions) {
 }
 
 // ──────────────────────────────────────────────
-//  INIT: recupera cartella salvata
+//  INIT: restore saved folder
 // ──────────────────────────────────────────────
 chrome.runtime.sendMessage({ type: 'GET_SAVED_FOLDER' }, (res) => {
   if (res?.folder) {
@@ -27,7 +27,7 @@ chrome.runtime.sendMessage({ type: 'GET_SAVED_FOLDER' }, (res) => {
 });
 
 // ──────────────────────────────────────────────
-//  CREA IL WIDGET FLOTTANTE
+//  CREATE FLOATING WIDGET
 // ──────────────────────────────────────────────
 function createWidget() {
   if (document.getElementById(WIDGET_ID)) return;
@@ -71,7 +71,7 @@ function createWidget() {
     user-select: none;
   `;
 
-  // Pulsante CARTELLA
+  // Folder button
   const btnFolder = document.createElement('button');
   btnFolder.id = 'yt-mp3-folder-btn';
   btnFolder.textContent = '📁';
@@ -121,7 +121,7 @@ function styleBtn(btn, bg) {
 }
 
 // ──────────────────────────────────────────────
-//  HANDLER: seleziona cartella
+//  HANDLER: select folder
 // ──────────────────────────────────────────────
 async function handleSelectFolder() {
   const btn = document.getElementById('yt-mp3-folder-btn');
@@ -229,7 +229,7 @@ function showToast(message, color, duration = 3500) {
 }
 
 // ──────────────────────────────────────────────
-//  NAVIGAZIONE SPA
+//  SPA NAVIGATION
 // ──────────────────────────────────────────────
 function onNavigate() {
   const isWatch = window.location.pathname === '/watch';
@@ -244,7 +244,7 @@ function onNavigate() {
 
 document.addEventListener('yt-navigate-finish', onNavigate);
 
-// ── Primo caricamento ────────────────────────
+// ── Initial load ─────────────────────────────
 if (window.location.pathname === '/watch') {
   if (document.body) {
     createWidget();
