@@ -42,7 +42,7 @@ async function selectFolder() {
     const res = await fetch(`${API_BASE}/select-folder`, { method: 'GET' });
 
     if (!res.ok) {
-      return { success: false, error: 'Nessuna cartella selezionata.' };
+      return { success: false, error: chrome.i18n.getMessage('selectFolderError') };
     }
 
     const data = await res.json();
@@ -52,7 +52,7 @@ async function selectFolder() {
   } catch {
     return { 
       success: false, 
-      error: 'Impossibile raggiungere il server locale.\nAssicurati che YtMp3Api.exe sia in esecuzione!' 
+      error: chrome.i18n.getMessage('serverUnreachableError') 
     };
   }
 }
@@ -73,14 +73,14 @@ async function downloadMp3(url, folder) {
       chrome.notifications.create({
         type:    'basic',
         iconUrl: 'icon128.png',
-        title:   '✅ MP3 Scaricato!',
-        message: `Salvato in:\n${folder}`
+        title:   chrome.i18n.getMessage('downloadWorkerNotificationTitle'),
+        message: chrome.i18n.getMessage('downloadWorkerNotificationMessage', folder)
       });
       return { success: true };
     }
 
     const err = await res.json().catch(() => ({}));
-    return { success: false, error: err.error || err.detail || 'Errore durante il download.' };
+    return { success: false, error: err.error || err.detail || chrome.i18n.getMessage('downloadFailedError') };
 
   } catch {
     return { 

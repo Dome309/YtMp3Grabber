@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "YT MP3 Downloader",
+  "default_locale": "en",
+  "name": "__MSG_extName__",
   "version": "1.0",
-  "description": "Scarica video YouTube come MP3 con un click.",
+  "description": "__MSG_extDescription__",
 
   "permissions": [
     "storage",
@@ -31,6 +32,6 @@
   },
 
   "action": {
-    "default_title": "YT MP3 Downloader"
+    "default_title": "__MSG_extName__"
   }
 }

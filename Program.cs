@@ -1,6 +1,5 @@
 using CliWrap;
 using Microsoft.AspNetCore.Mvc;
-using System.Windows.Forms;
 
 // ──────────────────────────────────────────────
 //  CONFIGURAZIONE

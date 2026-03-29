@@ -1,0 +1,62 @@
+{
+  "extName": {
+    "message": "YT MP3 Downloader"
+  },
+  "extDescription": {
+    "message": "Scarica video YouTube come MP3 con un click."
+  },
+  "widgetLabel": {
+    "message": "YT MP3"
+  },
+  "folderButtonTitleSelected": {
+    "message": "Cartella: $1\nClicca per cambiare"
+  },
+  "folderButtonTitleDefault": {
+    "message": "Seleziona cartella di destinazione"
+  },
+  "downloadButtonText": {
+    "message": "⬇ MP3"
+  },
+  "downloadButtonTitle": {
+    "message": "Scarica come MP3"
+  },
+  "folderSetToast": {
+    "message": "✅ Cartella impostata!"
+  },
+  "selectFolderFirstToast": {
+    "message": "📁 Prima scegli una cartella!"
+  },
+  "downloadSavedToast": {
+    "message": "🎵 MP3 salvato in:\n$1"
+  },
+  "folderChangeErrorToast": {
+    "message": "❌ Errore selezione cartella"
+  },
+  "downloadErrorToast": {
+    "message": "❌ $1"
+  },
+  "selectFolderError": {
+    "message": "Nessuna cartella selezionata."
+  },
+  "serverUnreachableError": {
+    "message": "Impossibile raggiungere il server locale. Assicurati che YtMp3Api.exe sia in esecuzione!"
+  },
+  "downloadFailedError": {
+    "message": "Errore durante il download."
+  },
+  "downloadWorkerNotificationTitle": {
+    "message": "✅ MP3 Scaricato!"
+  },
+  "downloadWorkerNotificationMessage": {
+    "message": "Salvato in:\n$1"
+  },
+  "downloadingStatus": {
+    "message": "⏳ Download..."
+  },
+  "doneStatus": {
+    "message": "✅ Fatto!"
+  },
+  "errorStatus": {
+    "message": "❌ Errore"
+  }
+}

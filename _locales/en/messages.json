@@ -1,0 +1,62 @@
+{
+  "extName": {
+    "message": "YT MP3 Downloader"
+  },
+  "extDescription": {
+    "message": "Download YouTube videos as MP3 with one click."
+  },
+  "widgetLabel": {
+    "message": "YT MP3"
+  },
+  "folderButtonTitleSelected": {
+    "message": "Folder: $1\nClick to change"
+  },
+  "folderButtonTitleDefault": {
+    "message": "Select destination folder"
+  },
+  "downloadButtonText": {
+    "message": "⬇ MP3"
+  },
+  "downloadButtonTitle": {
+    "message": "Download as MP3"
+  },
+  "folderSetToast": {
+    "message": "✅ Folder set!"
+  },
+  "selectFolderFirstToast": {
+    "message": "📁 Select a folder first!"
+  },
+  "downloadSavedToast": {
+    "message": "🎵 MP3 saved in:\n$1"
+  },
+  "folderChangeErrorToast": {
+    "message": "❌ Could not change folder"
+  },
+  "downloadErrorToast": {
+    "message": "❌ $1"
+  },
+  "selectFolderError": {
+    "message": "No folder selected."
+  },
+  "serverUnreachableError": {
+    "message": "Unable to reach local server. Make sure YtMp3Api.exe is running!"
+  },
+  "downloadFailedError": {
+    "message": "Error while downloading."
+  },
+  "downloadWorkerNotificationTitle": {
+    "message": "✅ MP3 Downloaded!"
+  },
+  "downloadWorkerNotificationMessage": {
+    "message": "Saved in:\n$1"
+  },
+  "downloadingStatus": {
+    "message": "⏳ Download..."
+  },
+  "doneStatus": {
+    "message": "✅ Done!"
+  },
+  "errorStatus": {
+    "message": "❌ Error"
+  }
+}

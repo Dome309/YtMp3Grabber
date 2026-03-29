@@ -9,6 +9,12 @@ const WIDGET_ID = 'yt-mp3-widget';
 let selectedFolder = null;
 let isDownloading  = false;
 
+function t(key, substitutions) {
+  if (!chrome?.i18n?.getMessage) return key;
+  const value = chrome.i18n.getMessage(key, substitutions);
+  return value || key;
+}
+
 // ──────────────────────────────────────────────
 //  INIT: recupera cartella salvata
 // ──────────────────────────────────────────────
@@ -16,7 +22,7 @@ chrome.runtime.sendMessage({ type: 'GET_SAVED_FOLDER' }, (res) => {
   if (res?.folder) {
     selectedFolder = res.folder;
     const folderBtn = document.getElementById('yt-mp3-folder-btn');
-    if (folderBtn) folderBtn.title = `Cartella: ${selectedFolder}\nClicca per cambiare`;
+    if (folderBtn) folderBtn.title = t('folderButtonTitleSelected', selectedFolder);
   }
 });
 
@@ -55,7 +61,7 @@ function createWidget() {
 
   // Label
   const label = document.createElement('span');
-  label.textContent = 'YT MP3';
+  label.textContent = t('widgetLabel');
   label.style.cssText = `
     color: #aaa;
     font-size: 11px;
@@ -70,16 +76,16 @@ function createWidget() {
   btnFolder.id = 'yt-mp3-folder-btn';
   btnFolder.textContent = '📁';
   btnFolder.title = selectedFolder
-    ? `Cartella: ${selectedFolder}\nClicca per cambiare`
-    : 'Seleziona cartella di destinazione';
+    ? t('folderButtonTitleSelected', selectedFolder)
+    : t('folderButtonTitleDefault');
   styleBtn(btnFolder, '#333');
   btnFolder.addEventListener('click', handleSelectFolder);
 
   // Pulsante DOWNLOAD
   const btnDownload = document.createElement('button');
   btnDownload.id = 'yt-mp3-download-btn';
-  btnDownload.textContent = '⬇ MP3';
-  btnDownload.title = 'Scarica come MP3';
+  btnDownload.textContent = t('downloadButtonText');
+  btnDownload.title = t('downloadButtonTitle');
   styleBtn(btnDownload, '#cc0000');
   btnDownload.addEventListener('click', handleDownload);
 
@@ -131,10 +137,10 @@ async function handleSelectFolder() {
 
   if (res?.success) {
     selectedFolder = res.folder;
-    btn.title = `Cartella: ${selectedFolder}\nClicca per cambiare`;
-    showToast('✅ Cartella impostata!', '#2ecc71');
+    btn.title = t('folderButtonTitleSelected', selectedFolder);
+    showToast(t('folderSetToast'), '#2ecc71');
   } else {
-    showToast('❌ ' + (res?.error || 'Errore selezione cartella'), '#e74c3c');
+    showToast(t('downloadErrorToast', res?.error || t('folderChangeErrorToast')), '#e74c3c');
   }
 }
 
@@ -148,7 +154,7 @@ async function handleDownload() {
   if (!btn) return;
 
   if (!selectedFolder) {
-    showToast('📁 Prima scegli una cartella!', '#e67e22');
+    showToast(t('selectFolderFirstToast'), '#e67e22');
     await handleSelectFolder();
     if (!selectedFolder) return;
   }
@@ -156,7 +162,7 @@ async function handleDownload() {
   const url = window.location.href;
 
   isDownloading = true;
-  btn.textContent = '⏳ Download...';
+  btn.textContent = t('downloadingStatus');
   btn.style.background = '#888';
   btn.disabled = true;
 
@@ -166,19 +172,20 @@ async function handleDownload() {
   btn.disabled = false;
 
   if (res?.success) {
-    btn.textContent = '✅ Fatto!';
+    btn.textContent = t('doneStatus');
     btn.style.background = '#27ae60';
-    showToast('🎵 MP3 salvato in:\n' + selectedFolder, '#27ae60', 5000);
+    showToast(t('downloadSavedToast', selectedFolder), '#27ae60', 5000);
     setTimeout(() => {
-      btn.textContent = '⬇ MP3';
+      btn.textContent = t('downloadButtonText');
       btn.style.background = '#cc0000';
     }, 3000);
   } else {
-    btn.textContent = '❌ Errore';
+    btn.textContent = t('errorStatus');
     btn.style.background = '#e74c3c';
-    showToast('❌ ' + (res?.error || 'Errore durante il download'), '#e74c3c', 6000);
+    const err = res?.error ? t('downloadErrorToast', res.error) : t('downloadFailedError');
+    showToast(err, '#e74c3c', 6000);
     setTimeout(() => {
-      btn.textContent = '⬇ MP3';
+      btn.textContent = t('downloadButtonText');
       btn.style.background = '#cc0000';
     }, 4000);
   }
