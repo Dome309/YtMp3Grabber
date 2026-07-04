@@ -42,6 +42,12 @@ dotnet build
 
 ## Running the API
 
+### Easier option on Windows
+
+Double-click [start-server.bat](start-server.bat) in the project folder. This will open a terminal window and start the server automatically.
+
+### Manual option
+
 ```bash
 dotnet run
 ```
