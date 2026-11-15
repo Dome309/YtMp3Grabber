@@ -126,7 +126,7 @@ app.MapPost("/download", async ([FromBody] DownloadRequest request, ILogger<Prog
         args.Add(outputTemplate);
         args.Add(request.Url);
 
-        await Cli.Wrap(ytDlpExe)           // full path, no ambiguity
+        var result = await Cli.Wrap(ytDlpExe)           // full path, no ambiguity
             .WithArguments(args)
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
                 logger.LogInformation("[yt-dlp] {Line}", line)))
@@ -134,6 +134,14 @@ app.MapPost("/download", async ([FromBody] DownloadRequest request, ILogger<Prog
                 logger.LogWarning("[yt-dlp] {Line}", line)))
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync();
+
+        if (result.ExitCode != 0)
+        {
+            logger.LogError("yt-dlp exited with code {Code} for {Url}", result.ExitCode, request.Url);
+            return Results.Problem(
+                detail: "yt-dlp returned an error. Check that the URL is valid and yt-dlp is up to date (winget upgrade yt-dlp.yt-dlp).",
+                statusCode: 500);
+        }
 
         logger.LogInformation("Download completed: {Url}", request.Url);
         return Results.Ok(new { message = "Download completed! File saved in: " + request.Folder });
